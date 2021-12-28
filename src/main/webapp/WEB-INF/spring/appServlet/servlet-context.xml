@@ -21,8 +21,15 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="org.conan.controller" />
+	<context:component-scan base-package="org.conan.*" />
 	
-	
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="200000000"/>
+		<beans:property name="maxInMemorySize" value="200000000"/>
+		<beans:property name="maxUploadSizePerFile" value="4000000"/>
+		<beans:property name="defaultEncoding" value="utf-8"/>
+		<beans:property name="uploadTempDir" value="file:/c:/upload"/>
+		</beans:bean>
 	
 </beans:beans>

@@ -16,15 +16,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class HomeController {
-	
+	// root로 들어온 요청을찾아서 화면에필요한 정보를 담아 home.jsp를 찾아 serverTime이라는 key값을 갖는
+	//데이터를 보냄
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET) // 그냥 루트는 무조건 home.jsp
 	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
+		logger.info("Welcome home! The client locale is {}.", locale); //console.log 자주하기
 		
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
@@ -32,8 +33,8 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate ); //setAttribute랑 유사한기능
-		
-		return "home";
+		// model은 데이터를 담고있다
+		return "home"; //view 이름
 	}
 	
 }

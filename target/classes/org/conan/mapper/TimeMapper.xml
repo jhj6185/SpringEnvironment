@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.conan.mapper.TimeMapper">
+<select id="getTime2" resultType="string">
+<!-- id의 값이 함수의 이름,, 밑의 select now()는 함수의 내용-->
+select now()
+</select>
+</mapper>	
