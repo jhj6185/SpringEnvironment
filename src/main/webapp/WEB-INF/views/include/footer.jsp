@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<!-- jQuery -->
+	<!-- jQuery -->
     <script src="/resources/vendor/jquery/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->

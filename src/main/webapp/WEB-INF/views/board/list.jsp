@@ -14,7 +14,8 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            DataTables Advanced Tables
+                            게시글 목록
+                            <button id='regBtn' type="button" class="btn btn-xs pull-right">글쓰기</button>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -32,7 +33,7 @@
                                     <c:forEach var="list" items="${list }">
                                     <tr class="odd gradeX">
                                         <td>${list.bno}</td>
-                                        <td>${list.title}</td>
+                                        <td><a href="/board/get?bno=${list.bno }">${list.title}</a></td>
                                         <td>${list.writer}</td>
                                         <td class="center">${list.regDate}</td>
                                         <td class="center">${list.updateDate}</td>
@@ -77,9 +78,10 @@
 	<script type="text/javascript">
      $(document).ready(function(){
     	var result='<c:out value="${result}"/>';
-    	checkModal(result);
+    	checkModal(result); //무조건 checkModal이 실행되도록
+    	history.replaceState({},null,null); //현재의 history entry 변경 함수
     	function checkModal(result){
-    		if(result === ''){
+    		if(result === ''  || history.state ){
     			return;
     		}
     		if(parseInt(result)>0){
@@ -88,7 +90,12 @@
     		}
     		$("#myModal").modal("show");
     	}
-    });
+     });
+     
+    	$("#regBtn").on("click",function(){
+    		self.location = "/board/register";
+    	}); //버튼 클릭시 등록창으로 이동
+    
     </script>
 </body>
 
