@@ -36,7 +36,8 @@ public class BoardController {
 		log.info("register : " + board);
 		service.register(board);
 		rttr.addFlashAttribute("result", board.getBno());
-		return "redirect:/board/list";
+		return "redirect:/board/list"; //redirect 하지 않으면 계속 confirm하라는 alert창이뜸 
+		//그래서 redirect해주는게좋음
 	}
 	@GetMapping("/register")
 	public void register() {

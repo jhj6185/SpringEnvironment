@@ -21,7 +21,7 @@ public class BoardMapperTest {
 		public void testGetList() {
 			mapper.getList().forEach(board -> log.info(board)); //람다식
 		}
-		
+
 		@Test
 		public void testInsert() {
 			BoardVO board = new BoardVO();
@@ -53,5 +53,14 @@ public class BoardMapperTest {
 			board.setWriter("rose");
 			int count = mapper.update(board);
 			log.info("UPDATE COUNT : "+count);
+		}
+		
+		@Test
+		public void testInsertSelectKey() {
+			BoardVO board = new BoardVO();
+			board.setTitle("새로 작성하는 글");
+			board.setWriter("newbie");
+			mapper.insertSelectKey(board);
+			log.info(board);
 		}
 	}
