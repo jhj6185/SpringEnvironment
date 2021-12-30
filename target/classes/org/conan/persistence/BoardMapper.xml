@@ -5,7 +5,8 @@
 폴더 안에다가 넣어주어야함 ,, xml은 구현하는곳, interface는 선언하는곳-->
 <select id="getListWithPaging" resultType="org.conan.domain.BoardVO">
 	<![CDATA[select * from tbl_board ]]>
-	<trim prefix='WHERE' prefixOverrides = "OR">
+	<include refid="criteria"></include>
+	<!-- <trim prefix='WHERE' prefixOverrides = "OR">
 	<foreach item="type" collection="typeArr">
 	<trim prefix="OR">
 	<choose>
@@ -15,7 +16,7 @@
 	</choose>
 	</trim>
 	</foreach>
-	</trim>
+	</trim> -->
 	<![CDATA[limit #{pageStart}, #{amount}]]>
 </select>
 
@@ -26,6 +27,7 @@
 <!-- resultType이 이상해서 404 error 뜰 수도 잇음 ㅠㅠ return 타입이 객체면 vo로 해주지만
  그냥 int형, String형이면 int, String으로 해준다 -->
 select count(*) from tbl_board 
+<include refid="criteria"></include>
 </select>
 
   <!-- #{} 는 mybatis 문법인데 ? 썼던 데에 쓴다고 생각하면됨 -->
@@ -53,4 +55,19 @@ select count(*) from tbl_board
 	SELECT LAST_INSERT_ID()
 	</selectKey>
 </insert>
+
+<sql id="criteria">
+<trim prefix="WHERE" prefixOverrides = "OR">
+<foreach item="type" collection="typeArr">
+	<trim prefix="OR">
+	<choose>
+	<when test="type == 'T'.toString()"> title like CONCAT('%', #{keyword}, '%')</when>
+	<when test="type == 'C'.toString()"> content like CONCAT('%', #{keyword}, '%')</when>
+	<when test="type == 'W'.toString()"> writer like CONCAT('%', #{keyword}, '%')</when>
+	</choose>
+	</trim>
+</foreach>
+</trim>
+</sql>
+
 </mapper>

@@ -19,6 +19,8 @@
                         <form method="POST" action="/board/modify?bno=${board.bno}">
                         <input type="hidden" name="pageNum" value='<c:out value="${cri.pageNum }"/>'>
                         <input type="hidden" name="amount" value='<c:out value="${cri.amount }"/>'>
+                        <input type="hidden" name="keyword" value='<c:out value="${cri.keyword }"/>'>
+                        <input type="hidden" name="type" value='<c:out value="${cri.type }"/>'>
                         <div class="panel-body">
                                 <div class="form-group">
                                     <label>Bno</label>
@@ -75,10 +77,17 @@
     				formObj.attr("action","/board/list").attr("method","get");
     				var pageNumTag = $("input[name='pageNum']").clone(); //잠시 보관용
     				var amountTag = $("input[name='amount']").clone();
+    				var keywordTag = $("input[name='keyword']").clone();
+    				var typeTag = $("input[name='type']").clone();
     				
     				formObj.empty(); //제거
     				formObj.append(pageNumTag);
     				formObj.append(amountTag); // 필요한 태그들만 추가
+    				formObj.append(keywordTag);
+    				formObj.append(typeTag);
+    				
+    				// 왜이렇게 길게 하냐면.. formOBJ는 post방식인데 우리는 get방식으로 보내고싶어서
+    				// post안에있는 데이터 싹 비우고 필요한것만 복사(clone) 한다음에 append해서 보냄get방식으로
     			}
     			formObj.submit();
     		});

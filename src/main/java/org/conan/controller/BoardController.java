@@ -32,9 +32,9 @@ public class BoardController {
 	public void list(Criteria cri, Model model) {
 		log.info("list : "+cri);
 		model.addAttribute("list", service.getList(cri));
-		/* int total = service.getTotal(cri); */
-		log.info("total : "/* +total */);
-		model.addAttribute("pageMaker",new PageDTO(cri, /*total*/200));
+		int total = service.getTotal(cri); 
+		log.info("total : " +total );
+		model.addAttribute("pageMaker",new PageDTO(cri, total));
 	}
 
 	@PostMapping("/register") //게시글 저장
@@ -45,6 +45,7 @@ public class BoardController {
 		//selectKey는 mysql의 bno의 값을 가져와서 boardVO에 setting해주는것.
 		//그니까 순서상 register의 selectKey가 boardVO의 bno는 첨에 0일텐데 그걸 mysql에서 가져와서 setting해주고
 		//그 후에 그 번호를 가져와주는게 board.getBno()
+		//새로고침하면 없어지므로 도배를 막아줌 =addFlashAttribute
 		return "redirect:/board/list"; //redirect 하지 않으면 계속 confirm하라는 alert창이뜸 
 		//그래서 redirect해주는게좋음
 	}
@@ -71,6 +72,9 @@ public class BoardController {
 		}
 		rttr.addAttribute("pageNum",cri.getPageNum());
 		rttr.addAttribute("amount",cri.getAmount());
+		rttr.addAttribute("type",cri.getType());
+		rttr.addAttribute("keyword",cri.getKeyword());
+		
 		return "redirect:/board/list";
 	}
 	
@@ -83,6 +87,8 @@ public class BoardController {
 		}
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
+		rttr.addAttribute("type",cri.getType());
+		rttr.addAttribute("keyword",cri.getKeyword());
 		return "redirect:/board/list";
 	}
 

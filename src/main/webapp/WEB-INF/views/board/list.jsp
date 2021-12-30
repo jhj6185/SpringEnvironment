@@ -42,8 +42,31 @@
                                 </tbody>
                             </table>
                             <!-- /.table-responsive -->
-                            <!-- pageNation 시작 -->
                             
+                            <!-- 검색창 시작 -->
+                            <div class="row">
+                            <div class="col-lg-12">
+                            <form id='searchForm' action="/board/list" method="get">
+                            <select name="type">
+                            <option value="" <c:out value="${pageMaker.cri.type == null?'selected':''}"/>>----</option>
+                            <option value="T" <c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
+                            <option value="C" <c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>내용</option>
+                            <option value="W" <c:out value="${pageMaker.cri.type eq 'W'?'selected':''}"/>>작성자</option>
+                            <option value="TC" <c:out value="${pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목 or 내용</option>
+                            <option value="TW" <c:out value="${pageMaker.cri.type eq 'TW'?'selected':''}"/>>제목 or 작성자</option>
+                            <option value="TCW" <c:out value="${pageMaker.cri.type eq 'TCW'?'selected':''}"/>>제목 or 내용 or 작성자</option>
+                            </select>
+                            <input type="text" name="keyword" value='<c:out value="${pageMaker.cri.keyword }"/>'/>
+                            <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }"/>
+                            <input type="hidden" name="amount" value="${pageMaker.cri.amount }"/>
+                            <button class="btn btn-info">Search</button>
+                            </form>
+                            </div>
+                            </div>
+                            
+                            <!-- 검색창 끝 -->
+                            
+                            <!-- pageNation 시작 -->
                             <div class='pull-right'>
                             <ul class="pagination">
                             <c:if test="${pageMaker.prev }">
@@ -60,6 +83,8 @@
                             <form id='actionForm' action="/board/list" method="get">
                             <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
                             <input type="hidden" name="amount" value="${pageMaker.cri.amount }">
+                            <input type="hidden" name="keyword" value='<c:out value="${pageMaker.cri.keyword }"/>'/>
+                            <input type="hidden" name="type" value='<c:out value="${pageMaker.cri.type }"/>'/>
                             </form>
                             
                             <!-- Pagination 끝 -->
@@ -130,8 +155,28 @@
     		e.preventDefault();
     		//console.log('click');
     		actionForm.append("<input type='hidden' name='bno' value='"+$(this).attr("href")+"'>");
+    		/* actionForm.append("<input type='hidden' name='keyword' value='<c:out value="${pageMaker.cri.keyword }"/>'>"); */
     		actionForm.attr("action","/board/get");
     		actionForm.submit();
+    	});
+    	
+    	//검색 이벤트 처리 : 검색 후 페이지를 이동하면 검색조건이 사라지므로
+    	//검색후 화면에서는 어떤 검색과 키워드를 이용했는지 알 수 없음
+    	//검색 버튼을 클릭하면 <form> 태그의 전송을 막고, 페이지번호는 1이되도록
+    	//+ 키워드가 없으면 검색 불가하도록
+    	var searchForm = $("#searchForm");
+    	$("#searchForm button").on("click",function(e){
+    		if(!searchForm.find("option:selected").val()){
+    			alert("검색 종류를 선택하세요");
+    			return false;
+    		}
+    	if(!searchForm.find("input[name='keyword']").val()){
+    		alert("키워드를 입력하세요");
+    		return false;
+    	}
+    	searchForm.find("input[name='pageNum']").val("1");
+    	e.preventDefault();
+    	searchForm.submit();
     	});
     </script>
 </body>

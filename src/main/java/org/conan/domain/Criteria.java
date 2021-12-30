@@ -51,6 +51,14 @@ public class Criteria {
 		// TODO Auto-generated method stub
 		this.type=type;
 	}
+
+	public String getType() {
+		return type;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
 	
 	
 }
