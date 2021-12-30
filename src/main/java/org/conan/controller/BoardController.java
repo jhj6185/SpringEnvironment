@@ -32,7 +32,9 @@ public class BoardController {
 	public void list(Criteria cri, Model model) {
 		log.info("list : "+cri);
 		model.addAttribute("list", service.getList(cri));
-		model.addAttribute("pageMaker",new PageDTO(cri, 200));
+		/* int total = service.getTotal(cri); */
+		log.info("total : "/* +total */);
+		model.addAttribute("pageMaker",new PageDTO(cri, /*total*/200));
 	}
 
 	@PostMapping("/register") //게시글 저장

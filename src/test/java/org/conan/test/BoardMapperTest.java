@@ -71,4 +71,13 @@ public class BoardMapperTest {
 			mapper.insertSelectKey(board);
 			log.info(board);
 		}
+		
+		@Test
+		public void testSearch() {
+			Criteria cri = new Criteria();
+			cri.setKeyword("명탐정");
+			cri.setType("TC");
+			List<BoardVO> list=mapper.getListWithPaging(cri);
+			list.forEach(board -> log.info(board));
+		}
 	}

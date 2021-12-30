@@ -15,6 +15,6 @@ public interface BoardMapper {
 	public int delete(long pk);
 	public int update(BoardVO board);
 	public void insertSelectKey(BoardVO board);
-
+	public int getTotalCount(Criteria cri); 
 	
 }

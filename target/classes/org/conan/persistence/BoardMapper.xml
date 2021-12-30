@@ -4,13 +4,30 @@
 <!-- namespace는 interface 위치를 적어주는것 , 그래서 현재 xml파일도 resources폴더의 org.conan의 persistence
 폴더 안에다가 넣어주어야함 ,, xml은 구현하는곳, interface는 선언하는곳-->
 <select id="getListWithPaging" resultType="org.conan.domain.BoardVO">
-	<!-- select * from tbl_board where BNO>0 -->
-	<!-- select * from tbl_board limit 0,10 -->
-	<![CDATA[select * from tbl_board limit #{pageStart}, #{amount}]]>
+	<![CDATA[select * from tbl_board ]]>
+	<trim prefix='WHERE' prefixOverrides = "OR">
+	<foreach item="type" collection="typeArr">
+	<trim prefix="OR">
+	<choose>
+	<when test="type == 'T'.toString()"> title like CONCAT('%', #{keyword}, '%')</when>
+	<when test="type == 'C'.toString()"> content like CONCAT('%', #{keyword}, '%')</when>
+	<when test="type == 'W'.toString()"> writer like CONCAT('%', #{keyword}, '%')</when>
+	</choose>
+	</trim>
+	</foreach>
+	</trim>
+	<![CDATA[limit #{pageStart}, #{amount}]]>
 </select>
+
 <select id="getList" resultType="org.conan.domain.BoardVO">
  select * from tbl_board where BNO>0
 </select>
+<select id="getTotalCount" resultType="int">
+<!-- resultType이 이상해서 404 error 뜰 수도 잇음 ㅠㅠ return 타입이 객체면 vo로 해주지만
+ 그냥 int형, String형이면 int, String으로 해준다 -->
+select count(*) from tbl_board 
+</select>
+
   <!-- #{} 는 mybatis 문법인데 ? 썼던 데에 쓴다고 생각하면됨 -->
   <insert id="insert">
   insert into tbl_board(title,content,writer)
