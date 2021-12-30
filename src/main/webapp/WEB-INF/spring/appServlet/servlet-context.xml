@@ -23,8 +23,8 @@
 	
 	<!-- <context:component-scan base-package="org.conan.*" /> -->
 	<context:component-scan base-package="org.conan.controller"></context:component-scan>
-		<context:component-scan base-package="org.conan.service"></context:component-scan>
 	<context:component-scan base-package="org.conan.sample"></context:component-scan>
+	<context:component-scan base-package="org.conan.persistence"></context:component-scan>
 	
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

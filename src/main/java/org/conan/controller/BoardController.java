@@ -2,10 +2,13 @@
 package org.conan.controller;
 
 import org.conan.domain.BoardVO;
+import org.conan.domain.Criteria;
+import org.conan.domain.PageDTO;
 import org.conan.service.BoardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,9 +29,10 @@ public class BoardController {
 	private BoardService service; //serviceImpl로 가야함 service엔 걍 함수이름만 선언되어있고 기능은 Impl에 있음
 
 	@GetMapping("/list")
-	public void list(Model model) {
-		log.info("list");
-		model.addAttribute("list", service.getList());
+	public void list(Criteria cri, Model model) {
+		log.info("list : "+cri);
+		model.addAttribute("list", service.getList(cri));
+		model.addAttribute("pageMaker",new PageDTO(cri, 200));
 	}
 
 	@PostMapping("/register") //게시글 저장
@@ -48,26 +52,35 @@ public class BoardController {
 	}
 
 	@GetMapping({"/get", "/modify"})
-	public void get(@RequestParam("bno") Long bno, Model model) {
+	public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, Model model) {
 		log.info("/get or modify");
 		model.addAttribute("board",service.get(bno));
+		//cri가 뭐냐면 bno를 requestParam으로 받잖아? 그러면 bno는 bno로 들어가
+		//근데 bno외에 get방식으로 오는 정보들은 cri라는 데에다가 다 받아버리겠다 이거임
+		//그리고 cri를 ${cri.~~}로 사용할수도 잇게됨!
+		//get이랑 modify페이지에서  el태그 사용 가능한것
 	}
 	
 	@PostMapping("/modify")
-	public String get(BoardVO board, RedirectAttributes rttr) {
+	public String get(BoardVO board, @ModelAttribute("cri")Criteria cri, RedirectAttributes rttr) {
 		log.info("modify : "+board);
 		if(service.modify(board)) {
 			rttr.addFlashAttribute("result","success");
 		}
+		rttr.addAttribute("pageNum",cri.getPageNum());
+		rttr.addAttribute("amount",cri.getAmount());
 		return "redirect:/board/list";
 	}
 	
 	@PostMapping("/remove")
-	public String remove(@RequestParam("bno")Long bno, RedirectAttributes rttr) {
+	public String remove(@RequestParam("bno")Long bno, @ModelAttribute("cri")Criteria cri, 
+		RedirectAttributes rttr) {
 		log.info("remove............."+bno);
 		if(service.remove(bno)) {
 			rttr.addFlashAttribute("result","success");
 		}
+		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("amount", cri.getAmount());
 		return "redirect:/board/list";
 	}
 

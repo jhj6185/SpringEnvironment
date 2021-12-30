@@ -3,8 +3,13 @@
 <mapper namespace="org.conan.persistence.BoardMapper">
 <!-- namespace는 interface 위치를 적어주는것 , 그래서 현재 xml파일도 resources폴더의 org.conan의 persistence
 폴더 안에다가 넣어주어야함 ,, xml은 구현하는곳, interface는 선언하는곳-->
+<select id="getListWithPaging" resultType="org.conan.domain.BoardVO">
+	<!-- select * from tbl_board where BNO>0 -->
+	<!-- select * from tbl_board limit 0,10 -->
+	<![CDATA[select * from tbl_board limit #{pageStart}, #{amount}]]>
+</select>
 <select id="getList" resultType="org.conan.domain.BoardVO">
-	select * from tbl_board where BNO>0
+ select * from tbl_board where BNO>0
 </select>
   <!-- #{} 는 mybatis 문법인데 ? 썼던 데에 쓴다고 생각하면됨 -->
   <insert id="insert">

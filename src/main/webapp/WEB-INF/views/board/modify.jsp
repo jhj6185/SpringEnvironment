@@ -17,6 +17,8 @@
                     <div class="panel panel-default">
                         <!-- /.panel-heading -->
                         <form method="POST" action="/board/modify?bno=${board.bno}">
+                        <input type="hidden" name="pageNum" value='<c:out value="${cri.pageNum }"/>'>
+                        <input type="hidden" name="amount" value='<c:out value="${cri.amount }"/>'>
                         <div class="panel-body">
                                 <div class="form-group">
                                     <label>Bno</label>
@@ -71,8 +73,12 @@
     			}else if(operation === 'list'){
     				//move to list
     				formObj.attr("action","/board/list").attr("method","get");
-    				/* return; 내가 잘못친거..? */
-    				formObj.empty();
+    				var pageNumTag = $("input[name='pageNum']").clone(); //잠시 보관용
+    				var amountTag = $("input[name='amount']").clone();
+    				
+    				formObj.empty(); //제거
+    				formObj.append(pageNumTag);
+    				formObj.append(amountTag); // 필요한 태그들만 추가
     			}
     			formObj.submit();
     		});

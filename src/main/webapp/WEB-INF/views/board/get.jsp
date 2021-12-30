@@ -33,10 +33,12 @@
 					</div>
 					<button data-oper='modify' class="btn btn-default">Modify</button>
 					<button data-oper='list' class="btn btn-default">List</button>
+					
 					<form id="operForm" action="/board/modify" method="get">
-						<input type="hidden" id='bno' name='bno'
-							value='<c:out value="${board.bno}"/>'>
-					</form>
+                    <input type="hidden" name="bno" id="bno" value='<c:out value="${board.bno }"/>'>
+                    <input type="hidden" name="pageNum" value="${cri.pageNum }">
+                    <input type="hidden" name="amount" value="${cri.amount }">
+                    </form>
 					<!-- /.table-responsive -->
 				</div>
 				<!-- /.panel-body -->

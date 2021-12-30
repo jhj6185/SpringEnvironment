@@ -1,6 +1,9 @@
 package org.conan.test;
 
+import java.util.List;
+
 import org.conan.domain.BoardVO;
+import org.conan.domain.Criteria;
 import org.conan.persistence.BoardMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,8 +21,13 @@ public class BoardMapperTest {
 		@Setter(onMethod_= {@Autowired})
 		private BoardMapper mapper;
 		@Test
-		public void testGetList() {
-			mapper.getList().forEach(board -> log.info(board)); //람다식
+		public void testPaging() {
+			/*
+			 * mapper.getList().forEach(board -> log.info(board)); //람다식
+			 */		
+			Criteria cri = new Criteria(4,3);
+			List<BoardVO> list=mapper.getListWithPaging(cri);
+			list.forEach(board->log.info(board));
 		}
 
 		@Test
