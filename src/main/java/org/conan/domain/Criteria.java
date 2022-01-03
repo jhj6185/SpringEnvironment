@@ -9,7 +9,7 @@ public class Criteria {
 	private String type;
 	private String keyword;
 	
-	public Criteria() { this(1,10); } //그냥 해준건가...?
+	public Criteria() { this(1,10); } //기본생성자
 	
 	public Criteria(int pageNum, int amount) { //넣어준 인자로 다시 setting인듯
 		this.pageNum = pageNum; //mySQL에서 limit을 고려함
