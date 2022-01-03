@@ -7,10 +7,14 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.conan.domain.SampleVO;
+import org.conan.domain.TicketVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -58,5 +62,18 @@ public class RSampleController {
 			result= ResponseEntity.status(HttpStatus.OK).body(vo);
 		}
 		return result;
+	}
+	
+	@GetMapping("/product/{cat}/{pid}") //product 뒤의 사용자 입력 url은 cat으로, pid로 인식해서
+	public String[] getPath(
+			@PathVariable("cat") String cat,
+			@PathVariable("pid") Integer pid) {
+		return new String[] { "category: "+cat, "productid: "+pid};// 이렇게 item을 만들어준다
+	}
+	
+	@PostMapping("/ticket")
+	public TicketVO convert(@RequestBody TicketVO ticket) {
+		log.info("convert............ticket" +ticket);
+		return ticket;
 	}
 }
